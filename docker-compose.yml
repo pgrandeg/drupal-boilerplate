@@ -1,0 +1,21 @@
+version: '2'
+services:
+  web:
+    image: fpfis/httpd-php:8.1-dev
+    working_dir: ${PWD}
+    ports:
+      - 8080:8080
+    volumes:
+      - ${PWD}:${PWD}
+    environment:
+      DOCUMENT_ROOT: ${PWD}/web
+
+  mysql:
+    image: percona/percona-server:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:
