@@ -1,19 +1,22 @@
 version: '2'
 services:
   web:
-    image: fpfis/httpd-php:8.1-dev
+    image: fpfis/httpd-php:8.3-dev
     working_dir: ${PWD}
     ports:
       - 8080:8080
     volumes:
       - ${PWD}:${PWD}
+      - /etc/ssl/certs/Zscaler_Root_CA.pem:/etc/ssl/certs/Zscaler_Root_CA.pem
+      - ./scripts/php_zscaler.ini:/usr/local/etc/php/conf.d/zzzscaler.ini
     environment:
       DOCUMENT_ROOT: ${PWD}/web
 
   mysql:
-    image: percona/percona-server:5.7
+    image: percona/percona-server:8.3
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: "root"
     volumes:
       - mysql:/var/lib/mysql
 
